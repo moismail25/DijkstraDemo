@@ -16,6 +16,7 @@ import com.example.dijkstrademo.model.Node;
 
 public class GraphView extends View {
     public static final int RADIUS = 80;
+    public static final int EDGE_OFFSET = 60;
     private Graph graph;
     private Paint nodePaint;
 
@@ -82,17 +83,36 @@ public class GraphView extends View {
 
         // Draw edges
         for (Edge edge : graph.getEdges()) {
-            canvas.drawLine(
-                    edge.getStartNode().getX(), edge.getStartNode().getY(),
-                    edge.getEndNode().getX(), edge.getEndNode().getY(),
-                    edgePaint
-            );
-            // Draw weights
             if(edge.getStartNode().getX() == edge.getEndNode().getX()) {
-                canvas.drawText(String.valueOf(edge.getWeight()), ((edge.getStartNode().getX()+edge.getEndNode().getX())/2)-40, ((edge.getStartNode().getY()+edge.getEndNode().getY())/2)+20, weightPaint);
+                canvas.drawLine(
+                        edge.getStartNode().getX()- EDGE_OFFSET, edge.getStartNode().getY(),
+                        edge.getEndNode().getX()- EDGE_OFFSET, edge.getEndNode().getY(),
+                        edgePaint
+                );
+                canvas.drawLine(
+                        edge.getStartNode().getX()+ EDGE_OFFSET, edge.getStartNode().getY(),
+                        edge.getEndNode().getX()+ EDGE_OFFSET, edge.getEndNode().getY(),
+                        edgePaint
+                );
             }else {
-                canvas.drawText(String.valueOf(edge.getWeight()), (edge.getStartNode().getX()+edge.getEndNode().getX())/2, ((edge.getStartNode().getY()+edge.getEndNode().getY())/2)-20, weightPaint);
+                canvas.drawLine(
+                        edge.getStartNode().getX(), edge.getStartNode().getY()- EDGE_OFFSET,
+                        edge.getEndNode().getX(), edge.getEndNode().getY()- EDGE_OFFSET,
+                        edgePaint
+                );
+                canvas.drawLine(
+                        edge.getStartNode().getX(), edge.getStartNode().getY()+ EDGE_OFFSET,
+                        edge.getEndNode().getX(), edge.getEndNode().getY()+ EDGE_OFFSET,
+                        edgePaint
+                );
             }
+            canvas.drawText(String.valueOf(edge.getWeight()), ((edge.getStartNode().getX()+edge.getEndNode().getX())/2), ((edge.getStartNode().getY()+edge.getEndNode().getY())/2)+20, weightPaint);
+//            // Draw weights
+//            if(edge.getStartNode().getX() == edge.getEndNode().getX()) {
+//                canvas.drawText(String.valueOf(edge.getWeight()), ((edge.getStartNode().getX()+edge.getEndNode().getX())/2)-40, ((edge.getStartNode().getY()+edge.getEndNode().getY())/2)+20, weightPaint);
+//            }else {
+//                canvas.drawText(String.valueOf(edge.getWeight()), (edge.getStartNode().getX()+edge.getEndNode().getX())/2, ((edge.getStartNode().getY()+edge.getEndNode().getY())/2)-20, weightPaint);
+//            }
         }
 
         // Draw nodes
@@ -114,7 +134,7 @@ public class GraphView extends View {
             // Iterate over the nodes and check if the touch coordinates are within a node
             for (Node node : graph.getNodes()) {
                 if (isWithinNode(touchX, touchY, node)) {
-                    node.setColor(Color.BLUE); // Change the color of the touched node
+                    node.setColor(Color.LTGRAY); // Change the color of the touched node
                     invalidate();
                     return true;
                 }

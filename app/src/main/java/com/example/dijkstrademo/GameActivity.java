@@ -13,7 +13,8 @@ import com.example.dijkstrademo.model.Node;
 import com.example.dijkstrademo.views.GraphView;
 
 public class GameActivity extends AppCompatActivity {
-    public static final int COLOR = Color.BLACK;
+    public static final int NODE_COLOR = Color.BLACK;
+    public static final int NUM_OF_GRAPHS = 2;
     private GraphView graphView;
 
     @Override
@@ -21,8 +22,11 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        // Choose a graph randomly
+        int selectedGraph = (int) Math.floor(Math.random() * NUM_OF_GRAPHS);
+
         graphView = findViewById(R.id.graphView);
-        graphView.setGraph(getGraph(1));
+        graphView.setGraph(getGraph(0));
     }
 
     public void submitSolution(View view) {
@@ -33,16 +37,16 @@ public class GameActivity extends AppCompatActivity {
     public Graph getGraph(int n) {
         Graph graph = new Graph();
         switch (n) {
-            case 1:
+            case 0: {
                 // Create Nodes
                 Node a = new Node(100, 100, 'A', Color.BLUE);
-                Node b = new Node(100, 400, 'B', COLOR);
-                Node c = new Node(950, 100, 'C', COLOR);
-                Node d = new Node(500, 400, 'D', COLOR);
+                Node b = new Node(100, 400, 'B', NODE_COLOR);
+                Node c = new Node(950, 100, 'C', NODE_COLOR);
+                Node d = new Node(500, 400, 'D', NODE_COLOR);
                 Node e = new Node(950, 400, 'E', Color.BLUE);
-                Node f = new Node(100, 700, 'F', COLOR);
-                Node g = new Node(500, 700, 'G', COLOR);
-                Node h = new Node(950, 700, 'H', COLOR);
+                Node f = new Node(100, 700, 'F', NODE_COLOR);
+                Node g = new Node(500, 700, 'G', NODE_COLOR);
+                Node h = new Node(950, 700, 'H', NODE_COLOR);
 
                 // Create Edges
                 Edge ac = new Edge(a, c, 3);
@@ -78,10 +82,62 @@ public class GameActivity extends AppCompatActivity {
                 graph.addEdge(bf);
                 graph.addEdge(fg);
                 break;
+            }
+            case 1: {
+                // Create Nodes
+                Node a = new Node(100, 100, 'A', Color.BLUE);
+                Node b = new Node(500, 100, 'B', NODE_COLOR);
+                Node c = new Node(950, 100, 'C', NODE_COLOR);
+                Node d = new Node(100, 400, 'D', NODE_COLOR);
+                Node h = new Node(500, 400, 'H', NODE_COLOR);
+                Node f = new Node(950, 400, 'F', NODE_COLOR);
+                Node g = new Node(100, 700, 'G', NODE_COLOR);
+                Node e = new Node(500, 700, 'E', Color.BLUE);
+                Node i = new Node(950, 700, 'I', NODE_COLOR);
+
+                // Create Edges
+                Edge ab = new Edge(a, b, 2);
+                Edge ad = new Edge(a, d, 6);
+                Edge bc = new Edge(b, c, 1);
+                Edge bh = new Edge(b, h, 7);
+                Edge dh = new Edge(d, h, 5);
+                Edge dg = new Edge(d, g, 4);
+                Edge cf = new Edge(c, f, 2);
+                Edge he = new Edge(h, e, 1);
+                Edge hf = new Edge(h, f, 3);
+                Edge ge = new Edge(g, e, 2);
+                Edge fi = new Edge(f, i, 5);
+
+                // Add Nodes to the Graph
+                graph.addNode(a);
+                graph.addNode(b);
+                graph.addNode(c);
+                graph.addNode(d);
+                graph.addNode(e);
+                graph.addNode(f);
+                graph.addNode(g);
+                graph.addNode(h);
+                graph.addNode(i);
+
+                // Add Edges to the Graph
+//                graph.addEdge(ac);
+                graph.addEdge(ab);
+                graph.addEdge(bc);
+                graph.addEdge(bh);
+                graph.addEdge(dh);
+                graph.addEdge(cf);
+                graph.addEdge(ad);
+                graph.addEdge(dg);
+                graph.addEdge(he);
+                graph.addEdge(hf);
+                graph.addEdge(ge);
+                graph.addEdge(fi);
+                break;
+            }
             default:
-                graph.addNode(new Node(100, 100, 'A', COLOR));
-                graph.addNode(new Node(650, 100, 'C', COLOR));
-                graph.addNode(new Node(400, 500, 'D', COLOR));
+                graph.addNode(new Node(100, 100, 'A', NODE_COLOR));
+                graph.addNode(new Node(650, 100, 'C', NODE_COLOR));
+                graph.addNode(new Node(400, 500, 'D', NODE_COLOR));
                 break;
         }
         return graph;
