@@ -26,7 +26,7 @@ public class GameActivity extends AppCompatActivity {
         int selectedGraph = (int) Math.floor(Math.random() * NUM_OF_GRAPHS);
 
         graphView = findViewById(R.id.graphView);
-        graphView.setGraph(getGraph(0));
+        graphView.setGraph(getGraph(selectedGraph));
     }
 
     public void submitSolution(View view) {

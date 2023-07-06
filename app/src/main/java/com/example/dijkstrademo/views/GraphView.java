@@ -16,10 +16,12 @@ import com.example.dijkstrademo.model.Node;
 
 public class GraphView extends View {
     public static final int RADIUS = 80;
+    public static final boolean NODES_AS_RECT = true;
     public static final int EDGE_OFFSET = 60;
+    public static final int RECT_OFFSET = 65;
     private Graph graph;
     private Paint nodePaint;
-
+    private Paint rectPaint;
     private Paint edgePaint;
     private Paint textPaint;
     private Paint weightPaint;
@@ -48,6 +50,10 @@ public class GraphView extends View {
         // Initialize node paint
         nodePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         nodePaint.setStyle(Paint.Style.FILL);
+
+        // Initialize node paint
+        rectPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        rectPaint.setStyle(Paint.Style.FILL);
 
         // Initialize text paint
         textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -114,14 +120,24 @@ public class GraphView extends View {
 //                canvas.drawText(String.valueOf(edge.getWeight()), (edge.getStartNode().getX()+edge.getEndNode().getX())/2, ((edge.getStartNode().getY()+edge.getEndNode().getY())/2)-20, weightPaint);
 //            }
         }
-
-        // Draw nodes
-        for (Node node : graph.getNodes()) {
-            nodePaint.setColor(node.getColor());
-            // Draw a circle
-            canvas.drawCircle(node.getX(), node.getY(), RADIUS, nodePaint);
-            // Draw the value
-            canvas.drawText(String.valueOf(node.getVal()), node.getX(), node.getY() + 50, textPaint);
+        if(NODES_AS_RECT) {
+            // Draw nodes as a rectangle
+            for (Node node : graph.getNodes()) {
+                rectPaint.setColor(node.getColor());
+                // Draw a rectangle
+                canvas.drawRect(node.getX()- RECT_OFFSET, node.getY()- RECT_OFFSET, node.getX()+ RECT_OFFSET, node.getY()+ RECT_OFFSET, rectPaint);
+                // Draw the value
+                canvas.drawText(String.valueOf(node.getVal()), node.getX(), node.getY() + 50, textPaint);
+            }
+        } else {
+            // Draw nodes as a circle
+            for (Node node : graph.getNodes()) {
+                nodePaint.setColor(node.getColor());
+                // Draw a circle
+                canvas.drawCircle(node.getX(), node.getY(), RADIUS, nodePaint);
+                // Draw the value
+                canvas.drawText(String.valueOf(node.getVal()), node.getX(), node.getY() + 50, textPaint);
+            }
         }
     }
 
